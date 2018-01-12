@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
+
+import client.cLogin;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -74,13 +77,19 @@ public class Login {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					frame.setVisible(false);
-					MainList mainlist = new MainList();
-					mainlist.frame.setVisible(true);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				cLogin c = new cLogin();
+				boolean x = c.login();
+				System.out.println(x);
+				if(x){
+					try {
+						frame.setVisible(false);
+						MainList mainlist = new MainList();
+						mainlist.frame.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
+
 			}
 		});
 		button.setForeground(Color.BLACK);

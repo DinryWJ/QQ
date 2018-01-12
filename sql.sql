@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `chart`
+-- Table structure for table `chat`
 --
 
-DROP TABLE IF EXISTS `chart`;
+DROP TABLE IF EXISTS `chat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `chart` (
+CREATE TABLE `chat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user1` int(11) NOT NULL,
   `user2` int(11) NOT NULL,
@@ -35,12 +35,12 @@ CREATE TABLE `chart` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `chart`
+-- Dumping data for table `chat`
 --
 
-LOCK TABLES `chart` WRITE;
-/*!40000 ALTER TABLE `chart` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chart` ENABLE KEYS */;
+LOCK TABLES `chat` WRITE;
+/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,6 +79,7 @@ CREATE TABLE `user` (
   `name` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `nickname` varchar(45) NOT NULL,
+  `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -101,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-12 16:03:19
+-- Dump completed on 2018-01-12 17:58:28
