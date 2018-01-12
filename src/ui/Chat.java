@@ -12,13 +12,13 @@ import javax.swing.JTextArea;
 
 public class Chat {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -29,7 +29,7 @@ public class Chat {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -44,7 +44,7 @@ public class Chat {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 876, 629);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -62,7 +62,7 @@ public class Chat {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("·¢ËÍ");
+		JButton btnNewButton = new JButton("ï¿½ï¿½ï¿½ï¿½");
 		btnNewButton.setBounds(781, 127, 63, 27);
 		panel_1.add(btnNewButton);
 		
