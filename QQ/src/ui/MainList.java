@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JInternalFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,15 +41,17 @@ public class MainList {
 
 	/**
 	 * Create the application.
+	 * @param name 
 	 */
-	public MainList() {
-		initialize();
+	public MainList(String name) {
+		initialize(name);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @param name 
 	 */
-	private void initialize() {
+	private void initialize(String name) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 315, 547);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,7 +60,7 @@ public class MainList {
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel label_name = new JLabel("安拉啦啦");
+		JLabel label_name = new JLabel(name);
 		label_name.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(label_name, BorderLayout.NORTH);
 		
@@ -66,6 +69,13 @@ public class MainList {
 		panel.add(checkbox, BorderLayout.WEST);
 		
 		JButton button = new JButton("切换账号");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int	m =JOptionPane.showConfirmDialog(null, "是否退出并切换账号", "切换账号",JOptionPane.YES_NO_OPTION);
+				//if(m==0) cQuit(name);
+			}
+		});
 		panel.add(button, BorderLayout.EAST);
 		
 		JPanel panel_1 = new JPanel();
@@ -76,16 +86,22 @@ public class MainList {
 		panel_1.add(panel_2, BorderLayout.NORTH);
 		
 		JButton btnNewButton = new JButton("添加新好友");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new AddFriends().frame.setVisible(true);
+			}
+		});
 		panel_2.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("搜索好友");
+		JButton btnNewButton_1 = new JButton("好友请求");
 		panel_2.add(btnNewButton_1);
 		
 		DefaultListModel<String> dlm = new DefaultListModel<String>();
 		dlm.addElement("item1");
 		dlm.addElement("item2");
 		dlm.addElement("item3");
-		JList list = new JList<String>(dlm);
+		JList<String> list = new JList<String>(dlm);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

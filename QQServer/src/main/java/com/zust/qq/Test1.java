@@ -14,7 +14,7 @@ import com.zust.qq.entity.User;
  */
 public class Test1 {
 	public static void main(String[] args) {
-		Configuration cfg = new Configuration().configure();
+		Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
@@ -29,9 +29,9 @@ public class Test1 {
 //		c.setUser1(1);
 //		c.setUser2(2);
 //		session.save(c);
-		Friends f= new Friends();
-		f.setUserId(1);
-		session.save(f);
+//		Friends f= new Friends();
+//		f.setUserId(1);
+//		session.save(f);
 		session.getTransaction().commit();
 
 		if (session.isOpen()) {

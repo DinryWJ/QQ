@@ -75,15 +75,18 @@ public class Login {
 		
 		JButton button = new JButton("\u767B\u5F55");
 		button.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				cLogin c = new cLogin();
+				String name = textField.getText();
+				String password = passwordField.getText();
+				cLogin c = new cLogin(name,password);
 				boolean x = c.login();
 				System.out.println(x);
 				if(x){
 					try {
 						frame.setVisible(false);
-						MainList mainlist = new MainList();
+						MainList mainlist = new MainList(name);
 						mainlist.frame.setVisible(true);
 					} catch (Exception e1) {
 						e1.printStackTrace();
