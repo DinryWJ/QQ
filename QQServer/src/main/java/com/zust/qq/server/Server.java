@@ -1,4 +1,4 @@
-package server;
+package com.zust.qq.server;
 
 import java.io.*;
 import java.net.*;

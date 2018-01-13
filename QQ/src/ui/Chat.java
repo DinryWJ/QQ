@@ -62,7 +62,7 @@ public class Chat {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("����");
+		JButton btnNewButton = new JButton("发送");
 		btnNewButton.setBounds(781, 127, 63, 27);
 		panel_1.add(btnNewButton);
 		

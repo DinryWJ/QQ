@@ -89,6 +89,7 @@ public class MainList {
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
 				try {
 					System.out.println(list.getSelectedValue());
 
@@ -98,7 +99,9 @@ public class MainList {
 					e1.printStackTrace();
 				}
 			}
+			}
 		});
+
 
 		panel_1.add(list, BorderLayout.CENTER);
 	}
