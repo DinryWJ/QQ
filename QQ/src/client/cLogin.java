@@ -111,4 +111,28 @@ public class cLogin {
 		}
 		return key;
 	}
+	
+	public String[] getFriends(){
+		String[] friends=null;
+		try{
+			socket = new Socket("127.0.0.1", 8888);
+			// 获取输出流向服务端写入数据
+			os = socket.getOutputStream();
+			pw = new PrintWriter(os);
+			pw.write("L&"+name+"&"+password);
+			pw.flush();
+			socket.shutdownOutput();
+			// 获取输入流接受服务端返回的信息
+			is = socket.getInputStream();
+			isr = new InputStreamReader(is);
+			br = new BufferedReader(isr);
+			message = br.readLine();
+			 String[] ary = message.split("&");
+			  friends=ary[5].split(";");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return friends;
+	}
+
 }

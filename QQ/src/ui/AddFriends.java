@@ -9,6 +9,9 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import client.Search;
+
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JList;
@@ -70,9 +73,9 @@ public class AddFriends {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String key = textField.getText();
+				String keys = textField.getText();
 				//System.out.println(key);
-				
+				new Search(keys).search();
 			}
 		});
 		panel.add(btnNewButton);

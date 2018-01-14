@@ -84,9 +84,10 @@ public class Login {
 				boolean x = c.login();
 				System.out.println(x);
 				if(x){
+					String[] friendlists=c.getFriends();
 					try {
 						frame.setVisible(false);
-						MainList mainlist = new MainList(name);
+						MainList mainlist = new MainList(name,friendlists);
 						mainlist.frame.setVisible(true);
 					} catch (Exception e1) {
 						e1.printStackTrace();

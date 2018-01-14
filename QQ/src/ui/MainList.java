@@ -42,16 +42,19 @@ public class MainList {
 	/**
 	 * Create the application.
 	 * @param name 
+	 * @param friendlists 
 	 */
-	public MainList(String name) {
-		initialize(name);
+	public MainList(String name, String[] friendlists) {		
+		initialize(name,friendlists);
 	}
+
 
 	/**
 	 * Initialize the contents of the frame.
 	 * @param name 
+	 * @param friendlists 
 	 */
-	private void initialize(String name) {
+	private void initialize(String name, String[] friendlists) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 315, 547);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,9 +101,9 @@ public class MainList {
 		panel_2.add(btnNewButton_1);
 		
 		DefaultListModel<String> dlm = new DefaultListModel<String>();
-		dlm.addElement("item1");
-		dlm.addElement("item2");
-		dlm.addElement("item3");
+		for(int i=0;i<friendlists.length;i++){
+			dlm.addElement(friendlists[i]);
+			}
 		JList<String> list = new JList<String>(dlm);
 		list.addMouseListener(new MouseAdapter() {
 			@Override

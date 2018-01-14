@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
+import javax.naming.directory.SearchControls;
+
 import com.zust.qq.Login;
 import com.zust.qq.Regist;
 
@@ -50,13 +52,13 @@ public class ServerSocketThread extends Thread {
                     Login login = new Login(Lname,Lpassword);
                     flag = login.checkLogin();
                     String Lnickname=login.getnickname();
-                    String[] friends=login.getFriends();//好友列表
+                    String friends=login.getFriends();//好友列表
                     socket.shutdownInput();            
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
                     //System.out.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
                     if(flag)
-                    	pw.write("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
+                    	pw.write("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname+"&"+friends);
                     else
                     	pw.write("0");
                     pw.flush();
@@ -72,7 +74,9 @@ public class ServerSocketThread extends Thread {
                     System.out.println("d");
                     break;
                 case 'S':
-                    System.out.println("d");
+                	int serch1= message.indexOf("&");
+                	String serchmessage=message.substring(serch1+1).trim();
+                	System.out.println(serchmessage);
                     break;
                 case 'Q':
                     System.out.println("d");

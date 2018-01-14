@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import com.zust.qq.entity.User;
+
 public class Login {
 	private String name;
 	private String password;
@@ -52,17 +54,21 @@ public class Login {
 		}
 		return nickname;
 	}
-	public String[] getFriends() {
+	public String getFriends() {
 		Configuration cfg = new Configuration().configure();
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		String hql="SELECT userList FROM Friends WHERE user='"+name+"'";
-		Query query = session.createQuery(hql);  
+		String hql = "FROM User WHERE name='"+name+"'";
+		User user = (User) session.createQuery(hql).uniqueResult();
+		int id = user.getId();
+		String hql2="SELECT userList FROM Friends WHERE user="+id;
+		Query query = session.createQuery(hql2);  
 		String userList=query.uniqueResult().toString();
-		  String[] ary = userList.split(";");
+//		  String[] ary = userList.split(";");
 		
-		return ary;
+		return userList;
 	}
+
 
 }

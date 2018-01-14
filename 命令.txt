@@ -1,0 +1,9 @@
+登录： 		L&aaa&bbb		
+加好友： 	A&aaa			+个人信息
+发信息：	M&aaa&time&xxx		+个人信息
+删除好友：	D&aaa			+个人信息
+搜索好友：	S&xxx			+个人信息
+退出登录：	Q			+个人信息
+注册		R&aaa&bbb&ccc
+
+错误：		Error&xxxx
