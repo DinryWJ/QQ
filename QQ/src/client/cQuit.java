@@ -1,8 +1,6 @@
 package client;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,19 +8,14 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-public class cLogin {
-	String name;
-	String password;
-	
-	
-	public cLogin(String name, String password) {
-		super();
-		this.name = name;
-		this.password = password;
+public class cQuit {
+	private String name;
+	public cQuit(String name) {
+		// TODO Auto-generated constructor stub
+		this.name=name;
 	}
 
 	Socket socket = null;
@@ -33,14 +26,13 @@ public class cLogin {
 	BufferedReader br = null;
 	String message = null;
 	boolean key=false;
-	
-	public boolean login() {
+	public boolean Quit(){
 		try {
 			socket = new Socket("127.0.0.1", 8888);
 			// 获取输出流向服务端写入数据
 			os = socket.getOutputStream();
 			pw = new PrintWriter(os);
-			pw.write("L&"+name+"&"+password);
+			pw.write("Q&"+name);
 			pw.flush();
 			socket.shutdownOutput();
 			// 获取输入流接受服务端返回的信息
@@ -50,16 +42,13 @@ public class cLogin {
 
 			while ((message = br.readLine()) != null) {
 				//System.out.println("sign" + message);
-				String msg=message.substring(0,1);
-				if(msg.equals("1"))//字符串包含“1”			
+				if(message.equals("1"))
 					key=true;
 				else {
-					
 					key=false;
-					JOptionPane.showMessageDialog(null, "Error&用户名密码错误！");
+					JOptionPane.showMessageDialog(null, "Error&该账号已退出！");
 				}
 			}
-
 			socket.shutdownInput();
 
 		} catch (UnknownHostException e) {
@@ -108,30 +97,6 @@ public class cLogin {
 			}
 
 		}
-		return key;
+		return true;
 	}
-	
-	
-	public String[] getperson(){
-		String[] ary=null;
-		try{
-			socket = new Socket("127.0.0.1", 8888);
-			// 获取输出流向服务端写入数据
-			os = socket.getOutputStream();
-			pw = new PrintWriter(os);
-			pw.write("L&"+name+"&"+password);
-			pw.flush();
-			socket.shutdownOutput();
-			// 获取输入流接受服务端返回的信息
-			is = socket.getInputStream();
-			isr = new InputStreamReader(is);
-			br = new BufferedReader(isr);
-			message = br.readLine();
-			ary = message.split("&");//1&user&"+Lname+"&"+Lpassword+"&"+Lnickname+"&"+friends
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ary;
-	}
-
 }

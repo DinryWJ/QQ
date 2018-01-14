@@ -33,15 +33,19 @@ public class Chat {
 
 	/**
 	 * Create the application.
+	 * @param friendid 
+	 * @param name 
 	 */
-	public Chat() {
-		initialize();
+	public Chat(String name, String friendid) {
+		initialize(name,friendid);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @param friendid 
+	 * @param name 
 	 */
-	private void initialize() {
+	private void initialize(String name, String friendid) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 876, 629);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

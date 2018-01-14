@@ -10,93 +10,40 @@ import org.hibernate.query.Query;
 
 import com.zust.qq.entity.*;
 public class Friend {
-	//private String username;
-	//private String nikename;
 	private String serchmessage;
-	public  String[]  findUser(String serchmessage){
+	
+
+	
+	public Friend(String serchmessage) {
+		super();
+		this.serchmessage = serchmessage;
+	}
+
+
+
+	public  String  findUser(){
 		Configuration cfg = new Configuration().configure();
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		this.serchmessage=serchmessage;
-		String hql="FROM User WHERE name='"+serchmessage+"'"+"or nickname='"+serchmessage+"'";
+		String hql="FROM User u WHERE u.name='"+serchmessage+"'"+" or u.nickname='"+serchmessage+"'";
 		Query query=session.createQuery(hql);
 	    List<User> user=query.list();
 		session.getTransaction().commit();
-		String[] userlist =new String[user.size()];
-		
+		String userlist ="";
 		for(int i=0;i<user.size();i++){
-			userlist[i]=user.get(i).getName();
-/*			System.out.println(user.get(i).getId()+"\t"+user.get(i).getName()+"\t"
-					+user.get(i).getNickname());*/
+
+			if(i==0)
+				userlist=user.get(i).getName();
+			else
+			 userlist=userlist+";"+user.get(i).getName();
 		}
+		
+
 		if (session.isOpen()) {
 			session.close();
 		}
 		return userlist;
 	}
 	
-	
-	
-	
-	/*public  void findUserbyusername(String username){
-		Configuration cfg = new Configuration().configure();
-		SessionFactory factory = cfg.buildSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		this.username=username;
-		String hql="FROM User WHERE name='"+username+"'";
-		Query query=session.createQuery(hql);
-	    List<User> user=query.list();
-		session.getTransaction().commit();
-		for(int i=0;i<user.size();i++){
-			System.out.println(user.get(i).getId()+"\t"+user.get(i).getName()+"\t"
-					+user.get(i).getNickname());
-		}
-		if (session.isOpen()) {
-			session.close();
-		}
-	}
-	public  void findUserbynickname(String nikename){
-		Configuration cfg = new Configuration().configure();
-		SessionFactory factory = cfg.buildSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		this.nikename=nikename;
-		String hql="FROM User WHERE name='"+nikename+"'";
-		Query query=session.createQuery(hql);
-	    List<User> user=query.list();
-		session.getTransaction().commit();
-		for(int i=0;i<user.size();i++){
-			System.out.println(user.get(i).getId()+"\t"+user.get(i).getName()+"\t"
-					+user.get(i).getNickname());
-		}
-		if (session.isOpen()) {
-			session.close();
-		}
-	}*/
-		
-/*	public boolean addFriend(String username){
-		Configuration cfg = new Configuration().configure();
-		SessionFactory factory = cfg.buildSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		Friends friends=new Friends();
-		String hql1="FROM Friends f WHERE f.user='"+username+"'";
-		Query query=session.createQuery(hql1);
-		if(query==null){
-			return false;
-		}
-		else{
-			query.get
-		return true;
-		}*/
-		
-		//friends.setUserId(userId);
-		
-	//}
-	
-/*	public List<User> findFriend(){
-		
-	}*/
 }

@@ -37,5 +37,6 @@
 		<mapping class="com.zust.qq.entity.Chat" />
 		<mapping class="com.zust.qq.entity.User" />
 		<mapping class="com.zust.qq.entity.Friends" />
+		<mapping class="com.zust.qq.entity.Invite" />
 	</session-factory>
 </hibernate-configuration>

@@ -42,7 +42,7 @@ public class Regist {
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		System.out.println("check");
+		System.out.println("regist");
 		User user=new User();
 		user.setName(name);
 		user.setNickname(nickname);

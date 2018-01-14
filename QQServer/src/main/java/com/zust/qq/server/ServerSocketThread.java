@@ -10,7 +10,9 @@ import java.util.List;
 
 import javax.naming.directory.SearchControls;
 
+import com.zust.qq.Friend;
 import com.zust.qq.Login;
+import com.zust.qq.Quit;
 import com.zust.qq.Regist;
 
 public class ServerSocketThread extends Thread {
@@ -42,7 +44,7 @@ public class ServerSocketThread extends Thread {
             	key=message.charAt(0);
             	System.out.println(key);
             	switch(key){
-                case 'L':
+            	case 'L':
                 	int indexL1= message.indexOf("&");
                 	int indexL2 = message.lastIndexOf("&");               	
                     String Lname = message.substring(indexL1+1,indexL2);
@@ -52,13 +54,17 @@ public class ServerSocketThread extends Thread {
                     Login login = new Login(Lname,Lpassword);
                     flag = login.checkLogin();
                     String Lnickname=login.getnickname();
-                    String friends=login.getFriends();//好友列表
+                    String friends=login.getFriends();//好友id列表
+                    String[] friendslist=friends.split("&");
+                    String friendsname=friendslist[0];
+                    String friendsnickname=friendslist[1];
                     socket.shutdownInput();            
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
-                    //System.out.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
+                    //System.out.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname+"&"+friendsname+"&"+friendsnickname);
+                    //friendsnickname  name1;name2;
                     if(flag)
-                    	pw.write("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname+"&"+friends);
+                    	pw.write("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname+"&"+friendsname+"&"+friendsnickname);
                     else
                     	pw.write("0");
                     pw.flush();
@@ -76,10 +82,40 @@ public class ServerSocketThread extends Thread {
                 case 'S':
                 	int serch1= message.indexOf("&");
                 	String serchmessage=message.substring(serch1+1).trim();
-                	System.out.println(serchmessage);
+                	String serchinf=""+new Friend(serchmessage).findUser();//搜索信息
+                	System.out.println("test1;"+serchinf);
+                    socket.shutdownInput();            
+                    os = socket.getOutputStream();
+                    pw = new PrintWriter(os);                   
+                    if(flag){
+                    	pw.write("0");
+                    	System.out.println("test2");
+                    }
+                    	
+                    else{
+                    	System.out.println("test3");
+                    	pw.write("1&"+serchinf);
+                    }
+                    	
+                    pw.flush();
+                    socket.shutdownOutput();   
+                	
                     break;
+
                 case 'Q':
-                    System.out.println("d");
+                	int indexQ1 = message.indexOf("&");
+                	String Qname = message.substring(indexQ1+1);
+                	System.out.println(Qname);
+                	flag = new Quit(Qname).checkQuit();
+                	socket.shutdownInput();            
+                    os = socket.getOutputStream();
+                    pw = new PrintWriter(os);
+                    if(flag)
+                    	pw.write("1");
+                    else
+                    	pw.write("0");
+                    pw.flush();
+                    socket.shutdownOutput();             
                     break;
                 case 'R':
                 	int indexR1= message.indexOf("&");
@@ -88,7 +124,7 @@ public class ServerSocketThread extends Thread {
                 	String Rname = message.substring(indexR1+1,indexR2);
                     String Rpassword = message.substring(indexR2+1,indexR3);
                     String Rnickname = message.substring(indexR3+1);
-                    System.out.println("Rname:"+Rname+" Rpassword:"+Rpassword+" Rnickname"+Rnickname);
+                    System.out.println("Rname:"+Rname+" Rpassword:"+Rpassword+" Rnickname:"+Rnickname);
                     Regist regist=new Regist(Rname, Rpassword, Rnickname);
                     flag=regist.checkRegist();
                     socket.shutdownInput();            

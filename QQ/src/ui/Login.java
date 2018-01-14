@@ -84,10 +84,10 @@ public class Login {
 				boolean x = c.login();
 				System.out.println(x);
 				if(x){
-					String[] friendlists=c.getFriends();
+					String[] person=c.getperson();
 					try {
 						frame.setVisible(false);
-						MainList mainlist = new MainList(name,friendlists);
+						MainList mainlist = new MainList(person);
 						mainlist.frame.setVisible(true);
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -102,6 +102,12 @@ public class Login {
 		panel.add(button);
 		
 		JLabel lblNewLabel = new JLabel("\u6CE8\u518C\u7528\u6237");
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Regist().frame.setVisible(true);
+			}
+		});
 		lblNewLabel.setBounds(324, 133, 62, 30);
 		panel.add(lblNewLabel);
 		

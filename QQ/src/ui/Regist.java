@@ -22,7 +22,7 @@ import java.awt.Font;
 
 public class Regist {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JPanel panel;
 	private JTextField textField;
 	private JPasswordField passwordField;
@@ -31,18 +31,18 @@ public class Regist {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Regist window = new Regist();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Regist window = new Regist();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -59,7 +59,7 @@ public class Regist {
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 367);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(127, 255, 212));
@@ -95,8 +95,7 @@ public class Regist {
 				if(x){
 					try{
 					frame.setVisible(false);
-					Login login=new Login();
-					login.frame.setVisible(true);
+					
 					}catch(Exception e2){e2.printStackTrace();}
 				}
 			}
@@ -111,8 +110,6 @@ public class Regist {
 			public void mouseClicked(MouseEvent e){
 					try{
 					frame.setVisible(false);
-					Login login=new Login();
-					login.frame.setVisible(true);
 					}catch(Exception e2){e2.printStackTrace();}
 				}
 		});

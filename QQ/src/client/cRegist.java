@@ -31,7 +31,7 @@ public class cRegist {
 	boolean key=false;
 	public boolean regist(){
 		try {
-			socket = new Socket("192.168.43.250", 8888);
+			socket = new Socket("127.0.0.1", 8888);
 			// 获取输出流向服务端写入数据
 			os = socket.getOutputStream();
 			pw = new PrintWriter(os);

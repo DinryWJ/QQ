@@ -11,10 +11,10 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-public class Search {
+public class cSearch {
 	private String keys;
 
-	public Search(String keys) {
+	public cSearch(String keys) {
 		super();
 		this.keys = keys;
 	}
@@ -27,8 +27,11 @@ public class Search {
 	BufferedReader br = null;
 	String message = null;
 	boolean key=false;
+	String serchinf;
 	public String search(){
 		try {
+			
+			//socket = new Socket("172.20.10.4", 8888);
 			socket = new Socket("127.0.0.1", 8888);
 			// 获取输出流向服务端写入数据
 			os = socket.getOutputStream();
@@ -42,11 +45,13 @@ public class Search {
 			br = new BufferedReader(isr);
 
 			while ((message = br.readLine()) != null) {
-				//System.out.println("sign" + message);
+				System.out.println("sign" + message);
 				String msg=message.substring(0,1);
 				if(msg.equals("1"))//字符串包含“1”
-					
+				{	
+					serchinf=message.substring(2);
 					key=true;
+				}
 				else {
 					
 					key=false;
@@ -102,7 +107,9 @@ public class Search {
 			}
 
 		}
-		return keys;
+		return serchinf;
 	}
+
 	
+
 }
