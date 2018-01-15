@@ -22,7 +22,7 @@ public class Server {
 			while (true) {
 				
 				socket = SERVER_SOCKET.accept();
-				
+				//System.out.println(socket.getInetAddress()+" "+socket.getPort());
 				new ServerSocketThread(socket).start();
 			}
 		} catch (IOException e) {

@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,7 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
-import client.cRegist;
+import client.TCPConnection;
+
 
 import java.awt.Font;
 
@@ -88,16 +90,21 @@ public class Regist {
 				String username=textField.getText();
 				String nickname=textField.getText();
 				String password=passwordField.getText();
-				cRegist r=new cRegist(username,password,nickname);
+				String r = TCPConnection.getInstance().sendAndWaitResponse("R&"+username+"&"+password+"&"+nickname);
+				
 				String show=username+"\t"+nickname+"\t"+password;
 				System.out.println(show);
-				boolean x=r.regist();
+				
+				boolean x=false;
+				if(r.equals("1"))x=true;
 				if(x){
 					try{
 					frame.setVisible(false);
 					
 					}catch(Exception e2){e2.printStackTrace();}
 				}
+				else
+					JOptionPane.showMessageDialog(null, "Error&已有用户名！");
 			}
 		});
 		btnNewButton.setBounds(101, 194, 66, 23);

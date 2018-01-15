@@ -99,5 +99,19 @@ public class Login {
 		}
 		return userList;
 	}
+	public int getId() {
+		Configuration cfg = new Configuration().configure();
+		SessionFactory factory = cfg.buildSessionFactory();
+		Session session = factory.openSession();
+		session.beginTransaction();
+		String hql = "FROM User WHERE name='" + name + "'";
+		User user = (User) session.createQuery(hql).uniqueResult();
+		int id = user.getId();
+		if (session.isOpen()) {
+			session.close();
+		}
+		return id;
+			
+	}
 
 }
