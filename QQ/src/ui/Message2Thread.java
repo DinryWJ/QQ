@@ -27,7 +27,7 @@ public class Message2Thread extends Thread {
 			String r = TCPConnection.getInstance().justWait();
 			if(r!=null)	 {
 				textArea.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				textArea.setText(r);
+				textArea.setText(textArea.getText()+"\n"+r);
 			}
 		}
 	}

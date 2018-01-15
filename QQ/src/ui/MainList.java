@@ -25,6 +25,8 @@ import javax.swing.JInternalFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainList {
 
@@ -133,6 +135,14 @@ public class MainList {
 		panel_2.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("好友请求");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AllInvite allInvite = new AllInvite(userId);
+				allInvite.frame.setVisible(true);
+			}
+		});
+
 		panel_2.add(btnNewButton_1);
 
 		DefaultListModel<String> dlm = new DefaultListModel<String>();

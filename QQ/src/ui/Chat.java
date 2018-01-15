@@ -99,7 +99,7 @@ public class Chat {
 				textArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 				textArea.setText(textArea.getText()+"\n"+textField.getText());
 				SimpleDateFormat sd = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-				String r = TCPConnection.getInstance().sendAndWaitResponse("M&"+id+"&"+id2+"&"+textField.getText()+"&"+sd.format(new Date()));
+				TCPConnection.getInstance().justSend("M&"+id+"&"+id2+"&"+textField.getText()+"&"+sd.format(new Date()));
 				//new cChat(id,id2,friendname).sendMessage(textField.getText());
 				textField.setText("");
 				

@@ -15,6 +15,7 @@ import javax.naming.directory.SearchControls;
 
 import com.zust.qq.Friend;
 import com.zust.qq.Inviate;
+import com.zust.qq.Invite;
 import com.zust.qq.Login;
 import com.zust.qq.Quit;
 import com.zust.qq.Regist;
@@ -138,8 +139,22 @@ public class ServerSocketThread extends Thread {
                            
                     break;
                 case 'D':
-                    System.out.println("d");
-                    break;
+                  	System.out.println(socket.getInetAddress()+" "+socket.getPort());
+                  	String userIds = "";             	
+                   	String IuserId = message.substring(2);                 	                                                                     
+                      Invite invite = new Invite(IuserId);
+                      List list1=invite.getInvite();
+                      for(int i =0;i<list1.size();i++)  {           
+                      userIds=userIds+list1.get(i)+"&";
+                   
+                      }
+                  	
+                      os = socket.getOutputStream();
+                       pw = new PrintWriter(os);
+                       pw.println("1&"+IuserId);                    
+                       pw.flush();               
+                      break;
+
                 case 'S':
                 	System.out.println(socket.getInetAddress()+" "+socket.getPort());
                 	int serch1= message.indexOf("&");
