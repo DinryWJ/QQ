@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.naming.directory.SearchControls;
 
@@ -21,16 +22,18 @@ import com.zust.qq.Regist;
 public class ServerSocketThread extends Thread {
 
     private Socket socket;
+    private Map<String, Socket> map;
+    
 
-    public ServerSocketThread(Socket socket) {
+    public ServerSocketThread(Socket socket, Map<String, Socket> map) {
         this.socket = socket;
+        this.map = map;
     }
     
     @Override
     public void run() {
     	char key;
-        int xulie=0;
-    	Map<String,Client> map = new HashMap<String,Client>();
+    	
         InputStream is = null;
         InputStreamReader isr = null;
         BufferedReader br = null;
@@ -65,8 +68,8 @@ public class ServerSocketThread extends Thread {
                        
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
-//                    xulie++;
-//            		map.put(Lname,new Client(xulie,socket));
+
+            		
             		flag=true;
                     if(flag){
                     	System.out.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
@@ -96,7 +99,7 @@ public class ServerSocketThread extends Thread {
                     }else
                        	pw.write("0");
                     pw.flush();
-                    socket.shutdownOutput();  
+ 
                     break;
                     
                 case 'M':
@@ -107,11 +110,19 @@ public class ServerSocketThread extends Thread {
                 	System.out.println(ss[3]);
                 	System.out.println(ss[4]);
                 	
-                	
+                	System.out.println(map.size());
+                	for (Entry<String, Socket> entry : map.entrySet()) {
+                        //Map.entry<Integer,String> 映射项（键-值对）  有几个方法：用上面的名字entry
+                        //entry.getKey() ;entry.getValue(); entry.setValue();
+                        //map.entrySet()  返回此映射中包含的映射关系的 Set视图。
+                        System.out.println("key= " + entry.getKey() + " and value= "
+                                + entry.getValue());
+                    }
             		if(map.get(ss[2]) != null){
-            			os = map.get(ss[2]).s.getOutputStream();
+            			System.out.println(map.get(ss[2]).getInetAddress()+" "+map.get(ss[2]).getPort());
+            			os = map.get(ss[2]).getOutputStream();
             			pw = new PrintWriter(os);
-            			pw.write(message);
+            			pw.println(message);
             			pw.flush();
             		}
                 	
@@ -145,7 +156,7 @@ public class ServerSocketThread extends Thread {
                     }
                     	
                     pw.flush();
-                    socket.shutdownOutput();   
+  
                 	
                     break;
 
@@ -174,7 +185,7 @@ public class ServerSocketThread extends Thread {
                     System.out.println("Rname:"+Rname+" Rpassword:"+Rpassword+" Rnickname:"+Rnickname);
                     Regist regist=new Regist(Rname, Rpassword, Rnickname);
                     flag=regist.checkRegist();
-                    socket.shutdownInput();            
+          
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
                     if(flag)
@@ -185,7 +196,7 @@ public class ServerSocketThread extends Thread {
                     else
                     	pw.println("0");
                     pw.flush();
-                    socket.shutdownOutput();   
+
                     break;
                 case 'G':
                 	System.out.println(socket.getInetAddress()+" "+socket.getPort());
@@ -202,6 +213,7 @@ public class ServerSocketThread extends Thread {
                     String friendsnickname=friendslist[1];        
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
+                    map.put(userId+"", socket);
                     pw.println("G&"+userId+"&"+Gname+"&"+Gpassword+"&"+Gnickname+"&"+friendsname+"&"+friendsnickname);                  
                     pw.flush();                
                     break;

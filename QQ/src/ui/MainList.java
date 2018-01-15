@@ -185,6 +185,10 @@ public class MainList {
 		});
 
 		panel_1.add(list, BorderLayout.CENTER);
+		
+		//new MessageThread().start();
+		
+	
 
 	}
 }

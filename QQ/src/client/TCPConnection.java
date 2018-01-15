@@ -7,6 +7,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 
 public class TCPConnection {
 	private static final TCPConnection single = new TCPConnection();
@@ -51,4 +53,18 @@ public class TCPConnection {
 	public void justSend(String msg) {
 		ps.println(msg);
 	}
+
+
+	public String justWait() {
+		// TODO Auto-generated method stub
+		String result = "";
+		try {
+			result = br.readLine();
+		} catch (IOException e) {
+			return null;
+		}
+		return result;
+	}
+	
+
 }

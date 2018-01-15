@@ -2,11 +2,15 @@ package com.zust.qq.server;
 
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Server {
 
 	private static ServerSocket SERVER_SOCKET = null;;
-
+	
+	private static Map<String,Socket> map = new HashMap<String,Socket>();
+	
 	static {
 		try {
 			SERVER_SOCKET = new ServerSocket(8888);
@@ -23,7 +27,7 @@ public class Server {
 				
 				socket = SERVER_SOCKET.accept();
 				//System.out.println(socket.getInetAddress()+" "+socket.getPort());
-				new ServerSocketThread(socket).start();
+				new ServerSocketThread(socket,map).start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

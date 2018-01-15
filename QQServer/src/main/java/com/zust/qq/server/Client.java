@@ -3,11 +3,11 @@ package com.zust.qq.server;
 import java.net.Socket;
 
 public class Client {
-	int ClientIndex;
+	boolean flag=false;
 	Socket s =null;
-	public Client(int clientIndex, Socket s) {
+	public Client(boolean flag, Socket s) {
 		super();
-		ClientIndex = clientIndex;
+		this.flag = flag;
 		this.s = s;
 	}
 	public void printX(){

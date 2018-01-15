@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -98,11 +99,15 @@ public class Chat {
 				textArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 				textArea.setText(textArea.getText()+"\n"+textField.getText());
 				SimpleDateFormat sd = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-				String r = TCPConnection.getInstance().sendAndWaitResponse("M&"+id+"&"+friendname+"&"+textField.getText()+"&"+sd.format(new Date()));
+				String r = TCPConnection.getInstance().sendAndWaitResponse("M&"+id+"&"+id2+"&"+textField.getText()+"&"+sd.format(new Date()));
 				//new cChat(id,id2,friendname).sendMessage(textField.getText());
 				textField.setText("");
 				
 			}
 		});
+		
+			
+		new Message2Thread(textArea).start();
+		
 	}
 }
