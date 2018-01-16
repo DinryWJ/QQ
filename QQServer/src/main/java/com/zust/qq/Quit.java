@@ -7,11 +7,11 @@ import org.hibernate.cfg.Configuration;
 import com.zust.qq.entity.User;
 
 public class Quit {
-	private String name;
+	private String sid;
 
-	public Quit(String name) {
+	public Quit(String sid) {
 		super();
-		this.name = name;
+		this.sid = sid;
 	}
 	
 	public boolean checkQuit(){
@@ -19,9 +19,8 @@ public class Quit {
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		
-		String hql = "FROM User WHERE name='"+name+"'";
-		User user = (User) session.createQuery(hql).uniqueResult();
+		int id = Integer.parseInt(sid);
+		User user = (User) session.get(User.class, id);
 		user.setStatus(false);
 		session.getTransaction().commit();
 

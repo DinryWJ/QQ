@@ -34,7 +34,6 @@
 		<property name="show_sql">true</property>
 		<!-- 将SQL脚本进行格式化后再输出 -->
 		<property name="hibernate.format_sql">false</property>
-		<mapping class="com.zust.qq.entity.Chat" />
 		<mapping class="com.zust.qq.entity.User" />
 		<mapping class="com.zust.qq.entity.Friends" />
 		<mapping class="com.zust.qq.entity.Invite" />

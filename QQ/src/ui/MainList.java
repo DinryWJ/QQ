@@ -27,6 +27,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class MainList {
 
@@ -63,8 +66,15 @@ public class MainList {
 	 * @param
 	 */
 	private void initialize(String pn) {
-
+//		MessageThread mt = new MessageThread();
+//		mt.start();
+		
+		String friendsname="";
+		String friendsnickname="";
+		String[] fidlists={};
+		String[] fnicknamelists={};
 		String[] person = pn.split("&");
+		
 		for(int i=0;i<person.length;i++){
 			System.out.print(person[i]+" ");
 		}
@@ -74,38 +84,44 @@ public class MainList {
 		String name = person[1];
 		String password = person[2];
 		String nickname = person[3];
-		String friendsname = person[4];
-		String friendsnickname = person[5];
-		String[] fnamelists = friendsname.split(";");
-		String[] fnicknamelists = friendsnickname.split(";");
 		
-//		System.out.println(id+" "+name+" "+password+" "+nickname+" "+friendsname+" "+friendsnickname);
-//		
-//		System.out.println(fnamelists[0]+" "+fnamelists[1]);
-//		System.out.println(fnicknamelists[0]+" "+fnicknamelists[1]);
+		if(person.length>4){
+			
+		friendsname = person[4];
+		friendsnickname = person[5];
+		System.out.println("id"+friendsname);
+		fidlists = friendsname.split(";");
+		 fnicknamelists = friendsnickname.split(";");
+		}
+
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				TCPConnection.getInstance().justSend("Q&"+id);	
+			
+				System.exit(0);
+			}
+		});
 		frame.setBounds(100, 100, 315, 547);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		Checkbox checkbox = new Checkbox("online");
-		checkbox.setState(true);
-		panel.add(checkbox, BorderLayout.WEST);
-
 		JButton button = new JButton("切换账号");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int m = JOptionPane.showConfirmDialog(null, "是否退出并切换账号", "切换账号", JOptionPane.YES_NO_OPTION);
-				boolean n = false;				
-				if (m == 0)
-					TCPConnection.getInstance().sendAndWaitResponse("Q&"+name);	
+				int m = JOptionPane.showConfirmDialog(null, "是否退出并切换账号", "切换账号", JOptionPane.YES_NO_OPTION);		
+				System.out.println(m);
+				if (m == 0){
+					TCPConnection.getInstance().justSend("Q&"+id);	
 					frame.setVisible(false);
 					new Login().frame.setVisible(true);
 				}
+			}
 		});
 		panel.add(button, BorderLayout.EAST);
 
@@ -135,20 +151,20 @@ public class MainList {
 		panel_2.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("好友请求");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				AllInvite allInvite = new AllInvite(userId);
-				allInvite.frame.setVisible(true);
-			}
-		});
+
 
 		panel_2.add(btnNewButton_1);
 
+		
+		
 		DefaultListModel<String> dlm = new DefaultListModel<String>();
+		if(fnicknamelists!=null){
 		for (int i = 0; i < fnicknamelists.length; i++) {
-			dlm.addElement(fnicknamelists[i] + "(" + fnamelists[i] + ")");
+			dlm.addElement(fnicknamelists[i] + "(" + fidlists[i] + ")");
 		}
+		}
+
+		
 
 		JList<String> list = new JList<String>(dlm);
 		list.addMouseListener(new MouseAdapter() {
@@ -163,7 +179,7 @@ public class MainList {
 					String friendname = friend.substring(0,first);
 					Chat chat = new Chat(id,name, id2,friendname);
 					chat.frame.setVisible(true);
-
+					
 				}
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					if (list.getSelectedValue() != null) {
@@ -184,6 +200,13 @@ public class MainList {
 								chat.frame.setVisible(true);
 							}
 						});
+						btn2.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								TCPConnection.getInstance().justSend("C&"+id+"&"+id2);
+								dlm.removeElement(list.getSelectedValue());
+							}
+						});
 						//System.out.println(a);
 						popupMenu.add(label);
 						popupMenu.add(btn1);
@@ -193,10 +216,16 @@ public class MainList {
 				}
 			}
 		});
-
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AllInvite allInvite = new AllInvite(userId,pn,list,dlm);
+				allInvite.frame.setVisible(true);
+			}
+		});
 		panel_1.add(list, BorderLayout.CENTER);
 		
-		//new MessageThread().start();
+
 		
 	
 

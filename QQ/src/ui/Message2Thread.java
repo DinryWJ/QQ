@@ -26,8 +26,11 @@ public class Message2Thread extends Thread {
 		while(true){
 			String r = TCPConnection.getInstance().justWait();
 			if(r!=null)	 {
-				textArea.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-				textArea.setText(textArea.getText()+"\n"+r);
+				String[] x = r.split("&");
+				//textArea.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+				//textArea.setText(textArea.getText()+"\n"+r);
+				System.out.println(x.length);
+				textArea.append("\n"+x[4]+"\n\t"+x[3]);
 			}
 		}
 	}

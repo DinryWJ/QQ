@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client.TCPConnection;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Chat {
 
@@ -58,7 +60,9 @@ public class Chat {
 	 * @param friendname 
 	 */
 	private void initialize(int id, String name, int id2, String friendname) {
+		
 		frame = new JFrame();
+
 		frame.setBounds(100, 100, 876, 629);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -96,18 +100,28 @@ public class Chat {
 		textField.setColumns(10);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-				textArea.setText(textArea.getText()+"\n"+textField.getText());
 				SimpleDateFormat sd = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-				TCPConnection.getInstance().justSend("M&"+id+"&"+id2+"&"+textField.getText()+"&"+sd.format(new Date()));
-				//new cChat(id,id2,friendname).sendMessage(textField.getText());
+				String date = sd.format(new Date());
+				textArea.append("\n\t\t\t\t\t\t");
+				textArea.append(date);
+				textArea.append("\n\t\t\t\t\t\t");
+				textArea.append(textField.getText());
+
+				TCPConnection.getInstance().justSend("M&"+id+"&"+id2+"&"+textField.getText()+"&"+date);
+
 				textField.setText("");
 				
 			}
 		});
 		
-			
-		new Message2Thread(textArea).start();
+		Message2Thread  mt = new Message2Thread(textArea);
+		mt.start();
 		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				mt.interrupt();
+			}
+		});
 	}
 }

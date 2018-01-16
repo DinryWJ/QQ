@@ -34,16 +34,19 @@ public class Test1 {
 //		c.setUser2(2);
 //		session.save(c);
 //		Friends f= new Friends();
+		Friends f= session.get(Friends.class, 6);
+		if(f!=null)System.out.println("1");
+		else System.out.println("2");
 //		f.setUserId(1);
 //		session.save(f);
-		SimpleDateFormat sd = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
-
-		Invite i = new Invite();
-		i.setUser1(1);
-		i.setUser2(2);
-		i.setTime(sd.format(new Date()));
-		session.save(i);
-		session.getTransaction().commit();
+//		SimpleDateFormat sd = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
+//
+//		Invite i = new Invite();
+//		i.setUser1(1);
+//		i.setUser2(2);
+//		i.setTime(sd.format(new Date()));
+//		session.save(i);
+//		session.getTransaction().commit();
 
 		if (session.isOpen()) {
 			session.close();

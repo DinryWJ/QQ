@@ -79,12 +79,15 @@ public class AddFriends {
 		JScrollPane scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		JButton btnNewButton = new JButton("搜索");
+		//搜索好友
 		btnNewButton.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String keys = textField.getText();
+				System.out.println(keys);
 				String sh = TCPConnection.getInstance().sendAndWaitResponse("S&" + keys);
+				System.out.println(sh);
 				if (sh.substring(0, 1).equals("1")) {
 					String s = sh.substring(2);
 
@@ -128,7 +131,7 @@ public class AddFriends {
 						scrollPane.setViewportView(list);
 					}
 
-				} else {
+				} else if(sh.substring(0, 1).equals("0")){
 					JOptionPane.showMessageDialog(null, "Error&没有相关用户！");
 				}
 			}

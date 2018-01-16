@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 
@@ -83,24 +85,15 @@ public class Login {
 				String r = TCPConnection.getInstance().sendAndWaitResponse("L&"+name+"&"+password);
 				if(r.substring(0,1).equals("1")){
 					String r2 = TCPConnection.getInstance().sendAndWaitResponse("G&"+name+"&"+password);
-					String person = r2.substring(2);
+					String person="";
+					if(r2.length()>2)
+						person = r2.substring(2);
 					frame.setVisible(false);
 					MainList window = new MainList(person);
 					window.frame.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "账号或密码错误或该账号已被登录");
 				}
-//				boolean x = c.login();
-//				System.out.println(x);
-//				if(x){
-//					String[] person=c.getperson();
-//					try {
-//						frame.setVisible(false);
-//						MainList mainlist = new MainList(person);
-//						mainlist.frame.setVisible(true);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-
 			}
 		});
 		button.setForeground(Color.BLACK);

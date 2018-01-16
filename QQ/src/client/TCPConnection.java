@@ -65,6 +65,13 @@ public class TCPConnection {
 		}
 		return result;
 	}
+
+
+	public Socket getClient() {
+		return client;
+	}
+
+
 	
 
 }

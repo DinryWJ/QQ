@@ -13,6 +13,10 @@ import java.util.Map.Entry;
 
 import javax.naming.directory.SearchControls;
 
+
+
+import com.zust.qq.AddFriends;
+import com.zust.qq.Delete;
 import com.zust.qq.Friend;
 import com.zust.qq.Inviate;
 import com.zust.qq.Invite;
@@ -61,17 +65,11 @@ public class ServerSocketThread extends Thread {
                 	int indexL2 = message.lastIndexOf("&");               	
                     String Lname = message.substring(indexL1+1,indexL2);
                     String Lpassword = message.substring(indexL2+1);
-                   // System.out.println(Lname);
-                    //System.out.println(Lpassword);
                     Login login = new Login(Lname,Lpassword);
                     flag = login.checkLogin();
                     String Lnickname=login.getnickname();                
-                       
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
-
-            		
-            		flag=true;
                     if(flag){
                     	System.out.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
                     	pw.println("1&user&"+Lname+"&"+Lpassword+"&"+Lnickname);
@@ -95,10 +93,10 @@ public class ServerSocketThread extends Thread {
                      os = socket.getOutputStream();
                      pw = new PrintWriter(os);
                     if(falg2){
-                    	pw.write("1");
+                    	pw.println("1");
                     	inviate.addinviate();
                     }else
-                       	pw.write("0");
+                       	pw.println("0");
                     pw.flush();
  
                     break;
@@ -151,10 +149,18 @@ public class ServerSocketThread extends Thread {
                   	
                       os = socket.getOutputStream();
                        pw = new PrintWriter(os);
-                       pw.println("1&"+IuserId);                    
+                       pw.println("1&"+userIds);
                        pw.flush();               
                       break;
 
+                case 'C':
+                	System.out.println(socket.getInetAddress()+" "+socket.getPort());
+                	String[] sp = message.split("&");
+                	int id1 = Integer.parseInt(sp[1]);
+                	int id2 = Integer.parseInt(sp[2]);
+                	new Delete(id1,id2).checkdelete();
+                	new Delete(id2,id1).checkdelete();
+                	break;
                 case 'S':
                 	System.out.println(socket.getInetAddress()+" "+socket.getPort());
                 	int serch1= message.indexOf("&");
@@ -164,30 +170,62 @@ public class ServerSocketThread extends Thread {
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);                   
                     if(flag){
-                    	pw.write("1&"+serchinf);
+                    	pw.println("1&"+serchinf);
                     }   	
                     else{
-                    	pw.write("0");
+                    	pw.println("0");
                     }
                     	
                     pw.flush();
   
                 	
                     break;
+                case 'Y':
+            		System.out.println("添加好友"+message);
+                  	System.out.println(socket.getInetAddress()+" "+socket.getPort());
+                  	String[] Ids=message.split("&");       	
+                   	String UserId = Ids[1];   
+                   	String fId = Ids[2];  
+                   	AddFriends  addFriends = new AddFriends(UserId,fId);
+//                    String newnick=addFriends.getNick(fId);
+                   	addFriends.add(UserId, fId);
+                    addFriends.update(UserId, fId);
+                    String fList=addFriends.getFriends(UserId);
+                    String[] friendslist1=fList.split("&");
+                    String newfids=friendslist1[0];
+                    String newfnicknames=friendslist1[1];
+                      os = socket.getOutputStream();
+                       pw = new PrintWriter(os);
+                    pw.println(UserId+"&"+Ids[4]+"&"+Ids[5]+"&"+Ids[6]
+                            +"&"+newfids+"&"+newfnicknames);
+                       pw.flush();               
+                      break;
+                case 'N':
+                        System.out.println("删除请求"+message);
+                        System.out.println(socket.getInetAddress()+" "+socket.getPort());
+                        String[] Ids1=message.split("&");
+                        String UserId1 = Ids1[1];
+                        String fId1 = Ids1[2];
+
+                        AddFriends  addFriends1 = new AddFriends(UserId1,fId1);
+                        addFriends1.update(UserId1, fId1);
+
+                        os = socket.getOutputStream();
+                        pw = new PrintWriter(os);
+                        //pw.println("G&"+UserId1+"&"+oldperson[1]+"&"+oldperson[2]+"&"+oldperson[3]+"&"+friendsname+"&"+friendsnickname);
+                        pw.flush();
+                        break;
 
                 case 'Q':
                 	System.out.println(socket.getInetAddress()+" "+socket.getPort());
                 	int indexQ1 = message.indexOf("&");
-                	String Qname = message.substring(indexQ1+1);
-                	System.out.println(Qname);
-                	flag = new Quit(Qname).checkQuit();        
-                    os = socket.getOutputStream();
-                    pw = new PrintWriter(os);
-                    if(flag)
-                    	pw.println("1");
-                    else
-                    	pw.println("0");
-                    pw.flush();                             
+                	String Qid = message.substring(indexQ1+1);
+                	System.out.println(Qid);
+                	flag = new Quit(Qid).checkQuit();
+                	if(map.get(Qid)!=null){
+                		map.remove(Qid);
+                	}	
+                           
                     break;
                 case 'R':
                 	System.out.println(socket.getInetAddress()+" "+socket.getPort());
@@ -214,23 +252,30 @@ public class ServerSocketThread extends Thread {
 
                     break;
                 case 'G':
-                	System.out.println(socket.getInetAddress()+" "+socket.getPort());
-                	int indexG1= message.indexOf("&");
-                	int indexG2 = message.lastIndexOf("&");               	
+                    System.out.println(socket.getInetAddress()+" "+socket.getPort());
+                    int indexG1= message.indexOf("&");
+                    int indexG2 = message.lastIndexOf("&");
                     String Gname = message.substring(indexG1+1,indexG2);
-                    String Gpassword = message.substring(indexG2+1);         
+                    String Gpassword = message.substring(indexG2+1);
+
                     Login login1 = new Login(Gname,Gpassword);
                     String Gnickname=login1.getnickname();
                     int userId=login1.getId();
                     String friends=login1.getFriends();//好友id列表
-                    String[] friendslist=friends.split("&");
-                    String friendsname=friendslist[0];
-                    String friendsnickname=friendslist[1];        
+                    String[] friendslist={};
+                    String friendsname="";
+                    String friendsnickname="";
+                    System.out.println(("测试"+friends));
+                    if (friends.length()>1) {
+                        friendslist = friends.split("&");
+                        friendsname = friendslist[0];
+                        friendsnickname = friendslist[1];
+                    }
                     os = socket.getOutputStream();
                     pw = new PrintWriter(os);
                     map.put(userId+"", socket);
-                    pw.println("G&"+userId+"&"+Gname+"&"+Gpassword+"&"+Gnickname+"&"+friendsname+"&"+friendsnickname);                  
-                    pw.flush();                
+                    pw.println("G&"+userId+"&"+Gname+"&"+Gpassword+"&"+Gnickname+"&"+friendsname+"&"+friendsnickname);
+                    pw.flush();
                     break;
 
                 default:

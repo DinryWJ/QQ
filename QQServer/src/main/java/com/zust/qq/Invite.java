@@ -10,13 +10,12 @@ import org.hibernate.query.Query;
 
 public class Invite {
 
-	private int userId;
-	
-	public Invite(String iuserId) {
+	private String userId;
+	public Invite(String userId) {
 		this.userId=userId;
 	}
 	
-public List getInvite() {
+	public List getInvite() {
 		
 		Configuration cfg = new Configuration().configure();
 		SessionFactory factory = cfg.buildSessionFactory();
@@ -32,4 +31,6 @@ public List getInvite() {
 		}
 		return user1;
 	}
+	
+	
 }
